@@ -110,7 +110,7 @@ Kohana::modules(array(
 	 'minion'        => MODPATH.'minion',        // Minion
 	 'tasks-migrations'        => MODPATH.'tasks-migrations',        // tasks-migrations
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	// 'unittest'   => MODPATH.'unittest',   // Unit testing
+	 'unittest'   => MODPATH.'unittest',   // Unit testing
 	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
@@ -119,21 +119,6 @@ Kohana::modules(array(
  * defaults for the URI.
  */
 
-Route::set('api', 'api(/1.0)(/<action>(/<id>))')
-	->defaults(array(
-		'directory'  => 'api',
-		'controller' => 'services',
-		'action'     => 'index',
-	));
-
-
-/*Route::set('user', 'user(/<controller>(/<action>(/<id>)))')
-	->defaults(array(
-		'directory'  => 'user',
-		'controller' => 'account',
-		'action'     => 'index',
-	));
-*/
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
