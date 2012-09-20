@@ -106,6 +106,7 @@ Kohana::modules(array(
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	 'database'   => MODPATH.'database',   // Database access
+	 'email'      => MODPATH.'email',	// Swift Emailer
 	// 'image'      => MODPATH.'image',      // Image manipulation
 	 'minion'        => MODPATH.'minion',        // Minion
 	 'tasks-migrations'        => MODPATH.'tasks-migrations',        // tasks-migrations
