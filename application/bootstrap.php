@@ -96,6 +96,12 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 Kohana::$config->attach(new Config_File);
 
 /**
+ * Set the cookie salt value. This should be changed per installation
+ */
+Cookie::$salt = 'changeme';
+
+
+/**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 
