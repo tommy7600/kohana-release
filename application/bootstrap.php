@@ -3,17 +3,17 @@
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class
-require SYSPATH.'classes/kohana/core'.EXT;
+require SYSPATH.'classes/Kohana/Core'.EXT;
 
-if (is_file(APPPATH.'classes/kohana'.EXT))
+if (is_file(APPPATH.'classes/Kohana'.EXT))
 {
 	// Application extends the core
-	require APPPATH.'classes/kohana'.EXT;
+	require APPPATH.'classes/Kohana'.EXT;
 }
 else
 {
 	// Load empty core extension
-	require SYSPATH.'classes/kohana'.EXT;
+	require SYSPATH.'classes/Kohana'.EXT;
 }
 
 /**
@@ -41,6 +41,14 @@ setlocale(LC_ALL, 'en_US.utf-8');
 spl_autoload_register(array('Kohana', 'auto_load'));
 
 /**
+ * Optionally, you can enable a compatibility auto-loader for use with
+ * older modules that have not been updated for PSR-0.
+ *
+ * It is recommended to not enable this unless absolutely necessary.
+ */
+//spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
+
+/**
  * Enable the Kohana auto-loader for unserialization.
  *
  * @link http://www.php.net/manual/function.spl-autoload-call
@@ -48,12 +56,25 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
+/**
+ * Set the mb_substitute_character to "none"
+ *
+ * @link http://www.php.net/manual/function.mb-substitute-character.php
+ */
+mb_substitute_character('none');
+
 // -- Configuration and initialization -----------------------------------------
 
 /**
  * Set the default language
  */
 I18n::lang('en-us');
+
+if (isset($_SERVER['SERVER_PROTOCOL']))
+{
+	// Replace the default protocol.
+	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
+}
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -82,7 +103,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/',
+	'base_url'   => '/kohana/',
 ));
 
 /**
@@ -95,28 +116,26 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  */
 Kohana::$config->attach(new Config_File);
 
-/**
+ /**
  * Set the cookie salt value. This should be changed per installation
  */
 Cookie::$salt = 'changeme';
 
-
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
-
 Kohana::modules(array(
-	'auth'       => MODPATH.'auth',       // Basic authentication
+	 'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	'database'   => MODPATH.'database',   // Database access
-        'email'      => MODPATH.'email',       // Swift Emailer
+	 'database'   => MODPATH.'database',   // Database access
+	 'email'      => MODPATH.'email',       // Swift Emailer
 	// 'image'      => MODPATH.'image',      // Image manipulation
-        'minion'        => MODPATH.'minion',        // Minion
-        'tasks-migrations'        => MODPATH.'tasks-migrations',        // tasks-migrations
-	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	'unittest'   => MODPATH.'unittest',   // Unit testing
-	'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	 'minion'     => MODPATH.'minion',     // CLI Tasks
+	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	 'tasks-migrations'        => MODPATH.'tasks-migrations',        // tasks-migrations
+	// 'unittest'   => MODPATH.'unittest',   // Unit testing
+	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
 /**
