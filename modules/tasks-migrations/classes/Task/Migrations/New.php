@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * The new task provides an easy way to create migration files
@@ -28,67 +28,66 @@
  *
  * @author Matt Button <matthew@sigswitch.com>
  */
-class Minion_Task_Migrations_New extends Minion_Task
-{
+class Task_Migrations_New extends Minion_Task {
 	/**
 	 * A set of config options that this task accepts
 	 * @var array
 	 */
-	protected $_config = array(
-		'group',
-		'description',
-		'location'
+	protected $_options = array(
+		'location'    => APPPATH,
+		'description' => '',
+		'group'       => NULL,
 	);
 
 	/**
 	 * Execute the task
 	 *
-	 * @param array Configuration
+	 * @param array $options Configuration
 	 */
-	public function execute(array $config)
+	protected function _execute(array $options)
 	{
 		try
 		{
-			$file = $this->generate($config);
+			$file = $this->generate($options);
 			Minion_CLI::write('Migration generated: '.$file);
 		}
-		catch(ErrorException $e)
+		catch (ErrorException $e)
 		{
 			Minion_CLI::write($e->getMessage());
 		}
 
 	}
 
-	public function generate($config, $up = null, $down = null)
+	/**
+	 * Generate the migration file and return the file path
+	 *
+	 * @param  array  $options The migration options
+	 * @param  string $up      Contents of the up migration
+	 * @param  string $down    Contents of the down migration
+	 * @return string          Filename
+	 */
+	public function generate($options, $up = NULL, $down = NULL)
 	{
-		$defaults = array(
-			'location'    => APPPATH,
-			'description' => '',
-			'group'       => NULL,
-		);
-
-		$config = array_merge($defaults, $config);
-
 		// Trim slashes in group
-		$config['group'] = trim($config['group'], '/');
+		$options['group'] = trim($options['group'], '/');
 
-		if ( ! $this->_valid_group($config['group']))
+		if ( ! $this->_valid_group($options['group']))
 		{
 			throw new ErrorException("Please provide a valid --group\nSee help for more info");
 		}
 
-		$group = $config['group'].'/';
-		$description = $config['description'];
-		$location = rtrim(realpath($config['location']), '/').'/migrations/';
+		$group = $options['group'].'/';
+		$description = $options['description'];
+		$location = rtrim(realpath($options['location']), '/').'/migrations/';
 
 		// {year}{month}{day}{hour}{minute}{second}
-		$time = date('YmdHis');
+		$time  = date('YmdHis');
 		$class = $this->_generate_classname($group, $time);
-		$file = $this->_generate_filename($location, $group, $time, $description);
+		$file  = $this->_generate_filename($location, $group, $time, $description);
 
 
-		$data = Kohana::FILE_SECURITY.PHP_EOL.
-		View::factory('minion/task/migrations/new/template')
+		$data = Kohana::FILE_SECURITY.PHP_EOL
+		.View::factory('minion/task/migrations/new/template')
 			->set('class', $class)
 			->set('description', $description)
 			->set('up', $up)
@@ -108,9 +107,9 @@ class Minion_Task_Migrations_New extends Minion_Task
 	/**
 	 * Generate a class name from the group
 	 *
-	 * @param  string group
-	 * @param  string Timestamp
-	 * @return string Class name
+	 * @param  string $group The group
+	 * @param  string $time  Timestamp
+	 * @return string        Class name
 	 */
 	protected function _generate_classname($group, $time)
 	{
@@ -131,24 +130,35 @@ class Minion_Task_Migrations_New extends Minion_Task
 	/**
 	 * Generates a filename from the group, time and description
 	 *
-	 * @param  string Location to store migration
-	 * @param  string Timestamp
-	 * @param  string Description
-	 * @return string Filename
+	 * @param  string $location    Location to store migration
+	 * @param  string $group       The group
+	 * @param  string $time        Timestamp
+	 * @param  string $description Description
+	 * @return string              Filename
 	 */
-	public function _generate_filename($location, $group, $time, $description)
+	protected function _generate_filename($location, $group, $time, $description)
 	{
-		// Max 100 characters, lowecase filenames.
+		// Max 100 characters, lowercase filenames.
 		$label = substr(strtolower($description), 0, 100);
+
 		// Only letters
 		$label = preg_replace('~[^a-z]+~', '-', $label);
+
 		// Add the location, group, and time
 		$filename = $location.$group.$time.'_'.$label;
+
 		// If description was empty, trim underscores
 		$filename = trim($filename, '_');
+
 		return $filename.EXT;
 	}
 
+	/**
+	 * Validate that the name of the group
+	 *
+	 * @param  string $group The group name
+	 * @return boolean
+	 */
 	protected function _valid_group($group)
 	{
 		// Group cannot be empty

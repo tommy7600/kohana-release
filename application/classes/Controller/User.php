@@ -13,7 +13,7 @@ class Controller_User extends Controller_Template {
         // if a user is not logged in, redirect to login page
         if (!$user)
         {
-            Request::current()->redirect('user/login');
+            $this->redirect('user/login');
         }
     }
  
@@ -28,14 +28,14 @@ class Controller_User extends Controller_Template {
             try {
          
                 // Create the user using form values
-                $user = ORM::factory('user')->create_user($this->request->post(), array(
+                $user = ORM::factory('User')->create_user($this->request->post(), array(
                     'username',
                     'password',
                     'email'            
                 ));
                  
                 // Grant user login role
-                $user->add('roles', ORM::factory('role', array('name' => 'login')));
+                $user->add('roles', ORM::factory('Role', array('name' => 'login')));
                  
                 // Reset values so form is not sticky
                 $_POST = array();
@@ -68,7 +68,7 @@ class Controller_User extends Controller_Template {
             // If successful, redirect user
             if ($user) 
             {
-                Request::current()->redirect('user/index');
+                $this->redirect('user/index');
             } 
             else
             {
@@ -83,7 +83,7 @@ class Controller_User extends Controller_Template {
         Auth::instance()->logout();
          
         // Redirect to login page
-        Request::current()->redirect('user/login');
+        $this->redirect('user/login');
     }
  
 }
