@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
 <head> 
 <title>Auth with ORM tutorial for Kohana 3.3</title> 
+<link href="<?php echo URL::site('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <style type="text/css">
 .error {
     color: red;
@@ -11,14 +12,16 @@
     background-color: yellow;
 }
 </style>
-<script src="<?php echo URL::site('js/angular.min.js'); ?>"></script>
-<script src="<?php echo URL::site('js/angular-animate.min.js'); ?>"></script>
-<script src="<?php echo URL::site('js/angular-route.min.js'); ?>"></script>
 </head> 
 <body>
     <h1>Auth module using the ORM driver for Kohana 3.3</h1>
     <div id="content">
         <?php echo $content; ?>
     </div>
+    <script src="<?php echo URL::site('js/angular.min.js'); ?>"></script>
+    <script src="<?php echo URL::site('js/angular-animate.min.js'); ?>"></script>
+    <script src="<?php echo URL::site('js/angular-route.min.js'); ?>"></script>
+    <script src="<?php echo URL::site('bootstrap/js/jquery-1.11.0.min.js'); ?>"></script>
+    <script src="<?php echo URL::site('bootstrap/js/bootstrap.min.js'); ?>"></script>
 </body>
 </html>
