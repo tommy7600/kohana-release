@@ -11,6 +11,9 @@
     background-color: yellow;
 }
 </style>
+<script src="<?php echo URL::site('js/angular.min.js'); ?>"></script>
+<script src="<?php echo URL::site('js/angular-animate.min.js'); ?>"></script>
+<script src="<?php echo URL::site('js/angular-route.min.js'); ?>"></script>
 </head> 
 <body>
     <h1>Auth module using the ORM driver for Kohana 3.3</h1>
