@@ -86,9 +86,9 @@ ALTER TABLE `user_tokens`
 	 */
 	public function down(Kohana_Database $db)
 	{
-		$db->query(NULL, 'DROP TABLE roles;');
 		$db->query(NULL, 'DROP TABLE roles_users;');
-		$db->query(NULL, 'DROP TABLE users;');
+		$db->query(NULL, 'DROP TABLE roles;');
 		$db->query(NULL, 'DROP TABLE user_tokens;');
+		$db->query(NULL, 'DROP TABLE users;');
 	}
 }
