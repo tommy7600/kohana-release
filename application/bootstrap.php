@@ -132,6 +132,7 @@ Kohana::modules(array(
 	 'database'   => MODPATH.'database',   // Database access
 	 'email'      => MODPATH.'email',       // Swift Emailer
 	// 'image'      => MODPATH.'image',      // Image manipulation
+	 'kostache'      => MODPATH.'kostache',      // KOstache Templates
 	 'minion'     => MODPATH.'minion',     // CLI Tasks
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	 'tasks-migrations'        => MODPATH.'tasks-migrations',        // tasks-migrations

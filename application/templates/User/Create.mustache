@@ -1,0 +1,46 @@
+<h2>Create a New User</h2>
+{{# message }}
+    <h3 class="message">
+        {{ message }}
+    </h3>
+{{/ message }}
+ 
+<form action="{{ action }}" method="post">
+
+<fieldset>
+	<div class="form-group">
+		<label for="username">Username</label>
+		<input type="text" name="username" value="{{ request.post.username }}" />
+
+		{{# errors.username }}<span class="error">{{ errors.username }}</span>{{/ errors.username }}
+	</div>
+
+	<div class="form-group">
+		<label for="email">Email Address</label>
+		<input type="text" name="email" value="{{ request.post.email }}" />
+
+		{{# errors.email }}<span class="error">{{ errors.email }}</span>{{/ errors.email }}
+	</div>
+ 
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input type="password" name="password" />
+
+		{{# errors._external.password }}<span class="error">{{ errors._external.password }}</span>{{/ errors._external.password }}
+	</div>
+ 
+	<div class="form-group">
+		<label for="password_confirm">Confirm Password</label>
+		<input type="password" name="password_confirm" />
+
+		{{# errors._external.password_confirm }}<span class="error">{{ errors._external.password_confirm }}</span>{{/ errors._external.password_confirm }}
+	</div>
+
+	<div class="form-group">
+		<input name="create" type="submit" value="Create User">
+	</div>
+</fieldset>
+
+</form>
+ 
+<p>Or <a href="{{ base }}user/login">login</a> if you have an account already.</p>

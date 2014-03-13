@@ -1,6 +1,0 @@
-Basic view
-
-<?php
-
-?>
-
